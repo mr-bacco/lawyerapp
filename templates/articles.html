@@ -1,19 +1,33 @@
 {% extends "base.html" %}
 
-{% block head %}
-
-{% endblock %}
+{% block head %} {% endblock %}
 
 <div class="container">
-
     {% block body %}
-    <h1 class = h1>this is the articles page div.</h1>
-
-    {% for article in articles %}
-        {{article.name, article.id}}
-    {% endfor %}
-        
-    {% endblock %}
+    <main role="main" class="container">
+            <div class="starter-template">
+              <h1>ARTICLES</h1>
+              <p class="lead">... text here ...<br> ... more text here ... </p>
+            </div>
+    </main>
+    
+    <ul class = "list-group">
+        {% for article in articles %}
+        <li class = "list-group-item" >
+            <a href = "articles/{{article.id}}"> {{article.name}} </a> 
+            
+        </li>
+            
+        {% endfor %}
+            
+        {% endblock %}
+    </ul>
 
 </div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="/docs/4.3/assets/js/vendor/jquery-slim.min.js"><\/script>')</script><script src="static/css/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+
+
+
 

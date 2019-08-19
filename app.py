@@ -18,6 +18,12 @@ def about():
 def articles():
     return render_template("articles.html", articles = Articles)
 
+@app.route('/list_article/<string:id>/')
+def article(id):
+    return render_template('list_article.html', id = id)
+
+
+
 ####################################################################################################
 # running this app in debug mode so that I can update the app.py without the need of manual restart
 if __name__ == "__main__":
