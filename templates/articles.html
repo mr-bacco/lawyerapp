@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block head %}
+
+{% endblock %}
+
+<div class="container">
+
+    {% block body %}
+    <h1 class = h1>this is the articles page div.</h1>
+
+    {% for article in articles %}
+        {{article.name, article.id}}
+    {% endfor %}
+        
+    {% endblock %}
+
+</div>
+
