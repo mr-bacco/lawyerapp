@@ -1,5 +1,5 @@
-def Articles():
-    articles = [
+def Items():
+    items = [
         {
             'id': '1',
             'name': 'number 1',
@@ -22,4 +22,4 @@ def Articles():
             'author': 'and'
         }
     ]
-    return articles
+    return items

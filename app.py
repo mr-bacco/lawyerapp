@@ -1,7 +1,8 @@
-from flask import Flask, render_template
-from data import Articles
+from flask import Flask, render_template, url_for, request, session, redirect
+from data import Items
+import pymongo
 
-Articles = Articles()
+Items = Items()
 
 app = Flask(__name__) # creating an instalnce of the Flask class
 
@@ -16,11 +17,11 @@ def about():
 
 @app.route("/articles")
 def articles():
-    return render_template("articles.html", articles = Articles)
+    return render_template("articles.html", items = Items)
 
-@app.route('/list_article/<string:id>/')
+@app.route('/list_item/<string:id>/')
 def article(id):
-    return render_template('list_article.html', id = id)
+    return render_template('list_item.html', id = id)
 
 
 
