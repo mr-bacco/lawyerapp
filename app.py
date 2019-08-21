@@ -28,3 +28,4 @@ def article(id):
 # running this app in debug mode so that I can update the app.py without the need of manual restart
 if __name__ == "__main__":
     app.run(debug=True)
+    
