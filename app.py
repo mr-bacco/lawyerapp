@@ -6,7 +6,18 @@ Items = Items()
 
 app = Flask(__name__) # creating an instalnce of the Flask class
 
-####### defining the routes for the different web pages START #######
+############## db SETUP START ##############
+'''using mongo db cloud version'''
+# checking the connection to cloud ongodb and printing in the console the list of collections under the database
+myclient = pymongo.MongoClient("mongodb://mrbacco:mongodb001@cluster0-shard-00-00-goutv.mongodb.net:27017,cluster0-shard-00-01-goutv.mongodb.net:27017,cluster0-shard-00-02-goutv.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority")
+mydb = myclient["database001"]
+print(mydb.list_collection_names())
+
+############## db SETUP ENDS ##############
+
+
+
+############## defining the routes for the different web pages START ##############
 @app.route("/")
 def index():
     return render_template("home.html")
