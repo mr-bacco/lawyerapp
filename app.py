@@ -1,19 +1,43 @@
-from flask import Flask, render_template, url_for, request, session, redirect
+##############################################################
+# Project: web application for data science / web scraping   #
+# Author: bac                                                #
+# Date: 2019                                                 #
+##############################################################
+
+from flask import Flask, render_template, url_for, session, redirect 
 from data import Items
-import pymongo
+import pymongo # driver for mongdb connectivity
+#import panda as pd
+from bs4 import BeautifulSoup # used for web scraping
+from flask import request # the request module allows request website for scraping
 
-Items = Items()
+Items = Items() # defining the items as per model created in data.py
 
-app = Flask(__name__) # creating an instalnce of the Flask class
+app = Flask(__name__) # creating an instalnce of the Flask class for thsi app as web server
 
 ############## db SETUP START ##############
 '''using mongo db cloud version'''
 # checking the connection to cloud ongodb and printing in the console the list of collections under the database
 myclient = pymongo.MongoClient("mongodb://mrbacco:mongodb001@cluster0-shard-00-00-goutv.mongodb.net:27017,cluster0-shard-00-01-goutv.mongodb.net:27017,cluster0-shard-00-02-goutv.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority")
 mydb = myclient["database001"]
-print(mydb.list_collection_names())
+print ("if connected, then these are the collections in mydb: ", mydb.list_collection_names())
 
-############## db SETUP ENDS ##############
+############## db SETUP END ##############
+
+
+############## Web scraping START ##############
+
+#making the soup
+with open("./templates/home.html") as file:
+    soup = BeautifulSoup(file)
+
+soup = BeautifulSoup("<html>data</html>")
+print(soup.prettify)
+
+
+
+############## Web scraping END ##############
+
 
 
 
@@ -36,8 +60,13 @@ def article(id):
 
 
 
+
+############## defining the routes for the different web pages END ##############
+
+
+
 ####################################################################################################
-# running this app in debug mode so that I can update the app.py without the need of manual restart
+# running app in debug mode so that I can update the app.py without the need of manual restart
 if __name__ == "__main__":
     app.run(debug=True)
     
