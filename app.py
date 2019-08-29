@@ -84,7 +84,7 @@ def register():
         name = form.name.data
         username = form.username.data
         email = form.email.data
-        password = sha512_crypt.hash(str(form.password.data)) # passsword is hashed
+        password = sha512_crypt.hash(str(form.password.data)) # passsword is encrypted
 
         myuser=[{ # defining a new variable taking as input the calues from the registration form
                 "name": name, 
@@ -92,9 +92,9 @@ def register():
                 "email" : email, 
                 "password" : password
                 }]
-        x = mycol.insert_many(myuser), print("inserting this user named  ", myuser, "in the database called ", mycol)
+        x = mycol.insert_many(myuser), print("inserting this user: ", myuser, "in the database called ", mycol)
         
-        return render_template('register.html', form = form), print("you are under the register page now using POST, data are sent to server")
+        return render_template('register.html', form = form), print("you are under the register page now using POST, data are sent to database")
     return
 
 
@@ -110,4 +110,3 @@ def register():
 # running app in debug mode so that I can update the app.py without the need of manual restart
 if __name__ == "__main__":
     app.run(debug=True) #app running with debugging on
-    
