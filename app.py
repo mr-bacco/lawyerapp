@@ -80,13 +80,14 @@ def register():
         return render_template('register.html', form = form), print("you are under the register page now using GET")
     elif request.method == 'POST' and form.validate():
 
-        # the following are the values from the registration form
+        # the following are the data from the registration form
         name = form.name.data
         username = form.username.data
         email = form.email.data
         password = sha512_crypt.hash(str(form.password.data)) # passsword is encrypted
 
-        myuser=[{ # defining a new variable taking as input the calues from the registration form
+        # defining a new variable taking as input the calues from the registration form
+        myuser=[{ 
                 "name": name, 
                 "username": username, 
                 "email" : email, 
@@ -98,9 +99,6 @@ def register():
     return
 
 
-
-
-
 ############## defining the routes for the different web pages END ##############
 
 
@@ -109,4 +107,4 @@ def register():
 ####################################################################################################
 # running app in debug mode so that I can update the app.py without the need of manual restart
 if __name__ == "__main__":
-    app.run(debug=True) #app running with debugging on
+    app.run(debug=True) 
