@@ -7,28 +7,28 @@
     {% block body %}
     <main role="main" class="container">
             <div class="starter-template">
-              <h1>REGISTER</h1>
+              <h1>LOGIN</h1>
               <p class="lead">... text here ...<br> ... more text here ... </p>
-                <form>
+                <form action="" method="POST">
                   <div class="form-group">
-                    <label for="exampleInputEmail1">Email address</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                    <label for="username">Username</label>
+                    <input type="username" name = "username" class="form-control" placeholder="Enter here" value="{{ request.form.username }}">
                     <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                    <input type="password" name = "password" class="form-control" id="exampleInputPassword1" placeholder="Password" value="{{ request.form.password }}">
                   </div>
-                  <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                  </div>
+                  
                   <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
+                {% if error %}
+                  <p class="error"><strong>Error: {{ error }}</strong>
+                {% endif %}
                 <br>
                 <br>
-              <form >
               <p> if not register, please register first</p> 
+              <form method = "GET" action = "/register">
               <button type="submit" class="btn btn-primary">Register</button>
               </form>
             </div>

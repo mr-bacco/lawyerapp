@@ -68,8 +68,7 @@ def articles():
 def article(id):
     return render_template('list_item.html', id = id)
 
-#definition of a class for the registration form
-class Reg(Form):
+class Reg(Form): #definition of a class for the registration form
     name = StringField('Name', [validators.Length(min = 1, max = 50)])
     username = StringField('Username', [validators.Length(min = 5, max = 50)])
     email = StringField('Email', [validators.Length(min = 6, max = 50)])
@@ -79,26 +78,63 @@ class Reg(Form):
 def register():
     form = Reg(request.form)
     if request.method == 'GET': # make sure the method used is define above
-        return render_template('register.html', form = form), print("you are under the register page now using GET")
+        return render_template('register.html', form = form), print("you are under the register page now using GET, well done bacco ")
     elif request.method == 'POST' and form.validate():
-
-        # the following are the data from the registration form
-        name = form.name.data
+        name = form.name.data                           # the following are the data from the registration form
         username = form.username.data
         email = form.email.data
         password = sha512_crypt.hash(str(form.password.data)) # passsword is encrypted
 
-        # defining a new variable taking as input the calues from the registration form
+        # defining a new variable taking as input the values from the registration form
         myuser=[{ 
                 "name": name, 
                 "username": username, 
                 "email" : email, 
                 "password" : password
                 }]
+        # insert the list into the mongo db
         x = mycol.insert_many(myuser), print("inserting this user: ", myuser, "in the database called ", mycol)
         
         return render_template('register.html', form = form), print("you are under the register page now using POST, data are sent to database")
-    return
+    else: 
+        print("this is the error")
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    error = None    #declaration for this variable
+    if request.method == 'POST':
+        if request.form.get('username') == " " or request.form.get('password') == '':
+            error = 'Credentials cannot be empty, please try again.'
+        else:
+            username = request.form.get('username')
+            newuser = mycol.find_one({'username': username })
+            print ("inserted username is: ", newuser )
+            
+            
+
+    return render_template('login.html', error=error)
+        
+
+
+
+
+
+'''
+    if request.method == "GET":
+        return render_template('login.html', error=error)
+    elif request.method == 'POST':
+        if request.form.get('username') == " " or request.form.get('password') == " ":
+            error = 'Credentials cannot be empty, please try again.' 
+            return redirect(url_for('login'))
+            
+        else:
+           def user():
+                username = request.form.get('username')
+                password = request.form.get('password')
+                newuser = mycol.find_one_or_404({'username': username})
+                print ("inserted username and password are: ", username, password )
+'''
+
 
 
 ############## defining the routes for the different web pages END ##############
