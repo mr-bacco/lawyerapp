@@ -34,25 +34,6 @@ except:
 
 ############## db SETUP END ##############
 
-
-############## Web scraping example START ##############
-'''
-this is a block of code for web scraping 
-
-# example as following 
-with open("./templates/home.html") as file:
-    soup = BeautifulSoup(file)
-
-soup = BeautifulSoup("<html>data</html>")
-print(soup.prettify)
-
-'''
-
-############## Web scraping example END ##############
-
-
-
-
 ############## defining the routes for the different web pages START ##############
 @app.route("/")
 def index():
@@ -116,27 +97,23 @@ def login():
         newuser = username
         if request.form.get('username') is not "" and request.form.get('password') is not "":
             newuser = mycol.find_one({'username': username })
-            if newuser == 0:
-                print ("no user" )
-                error = 'Wrong credentials, please try again'
-                return render_template('login.html', error=error)
-            else:
+            if newuser is not None:
+                password = newuser["password"] #return PasswordField for that username
                 print ("inserted username is: ", newuser )
-                #return PasswordField for that username
-                password = newuser["password"]
-                if password == "":
-                    error = 'Invalid credentials again 1'
-                    return render_template('login.html', error=error)
-                else:
-                    if sha512_crypt.verify(password_req, password):
-                        print ("password matched", password_req, password)
-                        #creating a session for the user just logged in
-                        session["logged_in"] = True
-                        session["username"]= username
-                        return redirect(url_for("dashboard"))
-                    else:
-                        error = 'Invalid credentials again 2'
-                        return render_template('login.html', error=error)
+            else:
+                error = 'Invalid credentials again 2'
+                print ("user not present therefore moving on")
+                return render_template('login.html', error=error)
+            if sha512_crypt.verify(password_req, password):
+                print ("password matched", password_req, password)
+                #creating a session for the user just logged in
+                session["logged_in"] = True
+                session["username"]= username
+                return redirect(url_for("dashboard"))
+            else:
+                error = 'Invalid credentials again 1'
+                print ("password DON'T match", password_req, password)
+                return render_template('login.html', error=error)         
         else:
             error = 'Empty credentials, try again please.'
             print (error, "inserted username is: ", newuser )
@@ -147,13 +124,26 @@ def login():
 def logout():
     session.clear()
     return redirect(url_for("about"))
-    print("session destroyed for user ") #destroying session for logged in user
-
-
-
+    print("session destroyed for user ") #destroying session for logged in current user
 
 
 ############## defining the routes for the different web pages END ##############
+
+############## Web scraping example START ##############
+'''
+this is a block of code for web scraping 
+
+# example as following 
+with open("./templates/home.html") as file:
+    soup = BeautifulSoup(file)
+
+soup = BeautifulSoup("<html>data</html>")
+print(soup.prettify)
+
+'''
+
+############## Web scraping example END ##############
+
 
 
 
