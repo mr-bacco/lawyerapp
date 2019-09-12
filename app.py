@@ -13,6 +13,8 @@ from bs4 import BeautifulSoup # used for web scraping
 import requests # the request HTTP library allows managing HTTP request/responses to/from websites
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators #FOR THE WEBFORMS
 from passlib.hash import sha512_crypt #passowrd hashing
+import logging
+
 
 Items = Items() # defining the items as per model created in data.py
 
@@ -26,9 +28,9 @@ try:
     myclient = pymongo.MongoClient("mongodb://mrbacco:mongodb001@cluster0-shard-00-00-goutv.mongodb.net:27017,cluster0-shard-00-01-goutv.mongodb.net:27017,cluster0-shard-00-02-goutv.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority")
     mydb = myclient["database001"]
     mycol = mydb["python001"]
-    print ("if connected to db, then these are the collections in mydb: ", mydb.list_collection_names()) #used to check if db is connected
+    print("if connected to db, then these are the collections in mydb: ", mydb.list_collection_names()) #used to check if db is connected
 except:
-    print("Could not connect to MongoDB")
+    logging.warning("Could not connect to MongoDB")
 
 ############## db SETUP END ##############
 
@@ -78,7 +80,7 @@ class Reg(Form): #definition of a class for the registration form
 def register():
     form = Reg(request.form)
     if request.method == 'GET': # make sure the method used is define above
-        return render_template('register.html', form = form), print("you are under the register page now using GET, well done bacco ")
+        return render_template('register.html', form = form), logging.warning("you are under the register page now using GET, well done bacco ")
     elif request.method == 'POST' and form.validate():
         name = form.name.data                           # the following are the data from the registration form
         username = form.username.data
@@ -103,17 +105,36 @@ def register():
 def login():
     error = None    #declaration for this variable
     if request.method == 'POST':
-        if request.form.get('username') == " " or request.form.get('password') == '':
-            error = 'Credentials cannot be empty, please try again.'
-        else:
-            username = request.form.get('username')
+        username = request.form.get('username')
+        password_req = request.form.get('password')
+        newuser = username
+        if request.form.get('username') is not "" or request.form.get('password') is not "":
+            error = 'well done.'
             newuser = mycol.find_one({'username': username })
-            print ("inserted username is: ", newuser )
-            
-            
+            if newuser == 0:
+                print ("no user" )
+                error = 'Invalid login'
+                return render_template('login.html', error=error)
+            else:
+                print (error, "inserted username is: ", newuser )
+                #return PasswordField for that username
+                password = newuser["password"]
+                if sha512_crypt.verify(password_req, password):
+                    print ("password matched", password_req, password)
+                    #creating a session for the user just logged in
+                    session["logged_in"] = True
+                    session["username"]= username
+                    return redirect(url_for("about"))
+                else:
+                    print("password not matched ", password_req, password)
 
+
+
+        else:
+            error = 'Wrong, please try again.'
+            print (error, "inserted username is: ", newuser )
+            
     return render_template('login.html', error=error)
-        
 
 
 
@@ -145,4 +166,5 @@ def login():
 ####################################################################################################
 # running app in debug mode so that I can update the app.py without the need of manual restart
 if __name__ == "__main__":
-    app.run(debug=True) 
+    app.secret_key="mrbacco1974"
+    app.run(debug=True)
