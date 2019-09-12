@@ -74,6 +74,8 @@ def article(id):
 def dashboard():
     return render_template("dashboard.html")
 
+
+
 class Reg(Form): #definition of a class for the registration form
     name = StringField('Name', [validators.Length(min = 1, max = 50)])
     username = StringField('Username', [validators.Length(min = 5, max = 50)])
@@ -112,53 +114,42 @@ def login():
         username = request.form.get('username')
         password_req = request.form.get('password')
         newuser = username
-        if request.form.get('username') is not "" or request.form.get('password') is not "":
-            error = 'well done.'
+        if request.form.get('username') is not "" and request.form.get('password') is not "":
             newuser = mycol.find_one({'username': username })
             if newuser == 0:
                 print ("no user" )
-                error = 'Invalid login'
+                error = 'Wrong credentials, please try again'
                 return render_template('login.html', error=error)
             else:
-                print (error, "inserted username is: ", newuser )
+                print ("inserted username is: ", newuser )
                 #return PasswordField for that username
                 password = newuser["password"]
-                if sha512_crypt.verify(password_req, password):
-                    print ("password matched", password_req, password)
-                    #creating a session for the user just logged in
-                    session["logged_in"] = True
-                    session["username"]= username
-                    return redirect(url_for("dashboard"))
+                if password == "":
+                    error = 'Invalid credentials again 1'
+                    return render_template('login.html', error=error)
                 else:
-                    print("password not matched ", password_req, password)
-
-
-
+                    if sha512_crypt.verify(password_req, password):
+                        print ("password matched", password_req, password)
+                        #creating a session for the user just logged in
+                        session["logged_in"] = True
+                        session["username"]= username
+                        return redirect(url_for("dashboard"))
+                    else:
+                        error = 'Invalid credentials again 2'
+                        return render_template('login.html', error=error)
         else:
-            error = 'Wrong, please try again.'
+            error = 'Empty credentials, try again please.'
             print (error, "inserted username is: ", newuser )
             
     return render_template('login.html', error=error)
 
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect(url_for("about"))
+    print("session destroyed for user ") #destroying session for logged in user
 
 
-
-
-'''
-    if request.method == "GET":
-        return render_template('login.html', error=error)
-    elif request.method == 'POST':
-        if request.form.get('username') == " " or request.form.get('password') == " ":
-            error = 'Credentials cannot be empty, please try again.' 
-            return redirect(url_for('login'))
-            
-        else:
-           def user():
-                username = request.form.get('username')
-                password = request.form.get('password')
-                newuser = mycol.find_one_or_404({'username': username})
-                print ("inserted username and password are: ", username, password )
-'''
 
 
 
