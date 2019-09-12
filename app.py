@@ -70,6 +70,10 @@ def articles():
 def article(id):
     return render_template('list_item.html', id = id)
 
+@app.route("/dashboard")
+def dashboard():
+    return render_template("dashboard.html")
+
 class Reg(Form): #definition of a class for the registration form
     name = StringField('Name', [validators.Length(min = 1, max = 50)])
     username = StringField('Username', [validators.Length(min = 5, max = 50)])
@@ -124,7 +128,7 @@ def login():
                     #creating a session for the user just logged in
                     session["logged_in"] = True
                     session["username"]= username
-                    return redirect(url_for("about"))
+                    return redirect(url_for("dashboard"))
                 else:
                     print("password not matched ", password_req, password)
 
