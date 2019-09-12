@@ -110,6 +110,7 @@ def login():
                 session["logged_in"] = True
                 session["username"]= username
                 return redirect(url_for("dashboard"))
+                print ("under the dashboard page now")
             else:
                 error = 'Invalid credentials again 1'
                 print ("password DON'T match", password_req, password)
@@ -117,7 +118,6 @@ def login():
         else:
             error = 'Empty credentials, try again please.'
             print (error, "inserted username is: ", newuser )
-            
     return render_template('login.html', error=error)
 
 @app.route("/logout")
