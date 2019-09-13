@@ -14,6 +14,9 @@ import requests # the request HTTP library allows managing HTTP request/response
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators #FOR THE WEBFORMS
 from passlib.hash import sha512_crypt #passowrd hashing
 import logging
+from functools import wraps
+
+
 
 
 Items = Items() # defining the items as per model created in data.py
@@ -35,10 +38,15 @@ except:
 ############## db SETUP END ##############
 
 ############## function to protect views if not logged in START ##############
-
-
-
-
+def isAuth(func):
+    @wraps(func)
+    def wrap (*args, **kwargs):
+        if "logged_in" in session:
+            return func(*args, **kwargs)
+        else: 
+            error = 'Need to login, first'
+            return redirect(url_for("login"), error)
+    return wrap
 
 ############## function to protect views if not logged in END ##############
 
@@ -53,18 +61,19 @@ def about():
     return render_template("about.html")
 
 @app.route("/articles")
+@isAuth
 def articles():
     return render_template("articles.html", items = Items)
 
 @app.route('/list_item/<string:id>/')
+@isAuth
 def article(id):
     return render_template('list_item.html', id = id)
 
 @app.route("/dashboard")
+@isAuth
 def dashboard():
     return render_template("dashboard.html")
-
-
 
 class Reg(Form): #definition of a class for the registration form
     name = StringField('Name', [validators.Length(min = 1, max = 50)])
@@ -130,6 +139,7 @@ def login():
     return render_template('login.html', error=error)
 
 @app.route("/logout")
+@isAuth
 def logout():
     session.clear()
     return redirect(url_for("about"))
