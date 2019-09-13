@@ -34,6 +34,15 @@ except:
 
 ############## db SETUP END ##############
 
+############## function to protect views if not logged in START ##############
+
+
+
+
+
+############## function to protect views if not logged in END ##############
+
+
 ############## defining the routes for the different web pages START ##############
 @app.route("/")
 def index():
@@ -129,20 +138,6 @@ def logout():
 
 ############## defining the routes for the different web pages END ##############
 
-############## Web scraping example START ##############
-'''
-this is a block of code for web scraping 
-
-# example as following 
-with open("./templates/home.html") as file:
-    soup = BeautifulSoup(file)
-
-soup = BeautifulSoup("<html>data</html>")
-print(soup.prettify)
-
-'''
-
-############## Web scraping example END ##############
 
 
 
