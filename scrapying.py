@@ -6,16 +6,18 @@
 ############################################################
 
 ############## Web scraping example START ##############
-'''
+
+from bs4 import BeautifulSoup # used for web scraping
+bs = BeautifulSoup
 # this is a block of code for web scraping 
 
 # example as following 
 with open("./templates/home.html") as file:
-    soup = BeautifulSoup(file)
+    soup = bs(file)
 
-soup = BeautifulSoup("<html>data</html>")
+soup = bs("<html>data</html>")
 print(soup.prettify)
 
-'''
+
 
 ############## Web scraping example END ##############

@@ -16,9 +16,6 @@ from passlib.hash import sha512_crypt #passowrd hashing
 import logging
 from functools import wraps
 
-
-
-
 Items = Items() # defining the items as per model created in data.py
 
 app = Flask(__name__) # creating an instalnce of the Flask class for thsi app as web server
@@ -45,7 +42,7 @@ def isAuth(func):
             return func(*args, **kwargs)
         else: 
             error = 'Need to login, first'
-            return redirect(url_for("login"), error)
+            return redirect(url_for("login"), error), print ("user not registered, redirecting now to login page")
     return wrap
 
 ############## function to protect views if not logged in END ##############
