@@ -7,21 +7,41 @@
     {% block body %}
     <main role="main" class="container">
             <div class="starter-template">
-              <h1>HOME</h1>
-              <p class="lead">... text here ...<br> ... more text here ... </p>
-                <form action="/login" method="get">
-                  
-                  <button type="submit" class="btn btn-primary">Login</button>
+              <h1>Cristine Campigotto Avvocatissima</h1>
+              {% from "includes/_formhelpers.html" import render_field%}
+              <p class="lead">... lorem ipsum ... Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum </p>
+              <h2>dove sono</h2>
+                <div class="starter-template">
+                  <iframe width="600" height="500" id="gmap_canvas" src="https://maps.google.com/maps?q=modena%20corso%20canalgrande%2092&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0">
+                  </iframe>
+                </div>
+                <div class="starter-template">
+                <h2>Contattatemi</h2>
+                 
+
+                  <form method ="POST", action ="">
+                  <div class="form-group">
+                    {{render_field(form.name, class = "form-control")}}
+                  </div>
+                  <div class="form-group">
+                    {{render_field(form.telefono, class = "form-control")}}
+                  </div>
+                  <div class="form-group">
+                    {{render_field(form.email, class = "form-control")}}
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                  </div>
+                  <div class="form-group">
+                    {{render_field(form.messaggio, class = "form-control")}}
+                  </div>
+                  <button type="submit" class="btn btn-primary">Invia</button>
                 </form>
+                  </div>
                 {% if error %}
-                  <p class="error"><strong>Error:</strong> {{ error }}
+                  <p class="error"><strong> Message: {{ error }}</strong>
                 {% endif %}
-                <br>
-                <br>
-              <form method = "GET" action = "/register">
-              <p> if not register, please register first</p> 
-              <button type="submit" class="btn btn-primary">Register</button>
-              </form>
+                </div>
+                <style>
+                </style>
             </div>
     </main>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
