@@ -18,7 +18,7 @@ import logging
 from functools import wraps
 from emails import send_mail
 from flask import Flask
-from flask_mail import Mail
+from flask_mail import Mail, Message
 
 app = Flask(__name__)
 mail = Mail(app)
@@ -27,12 +27,16 @@ app = Flask(__name__) # creating an instalnce of the Flask class for thsi app as
 
 
 ############## email server SETUP START ##############
-app.config['MAIL_SERVER']='smtp.mailtrap.io'
-app.config['MAIL_PORT'] = 2525
-app.config['MAIL_USERNAME'] = '87aa1120ef3ab1'
-app.config['MAIL_PASSWORD'] = '41ab2915809718'
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USE_SSL'] = False
+app.config.update(dict(
+    MAIL_SERVER = 'smtp.googlemail.com',
+    MAIL_PORT = 465,
+    MAIL_USE_TLS = False,
+    MAIL_USE_SSL = True,
+    MAIL_USERNAME = 'campigotto111@gmail.com',
+    MAIL_PASSWORD = 'Daoxiao99'
+))
+
+mail = Mail(app)
 
 print(" connected to email ... probably")
 ############## email server SETUP END ##############
@@ -79,7 +83,9 @@ def index():
                 }]
         # insert the list into the mongo db
         x = mycol.insert_many(mymsg), print("inserting this user: ", mymsg, "in the database called ", mycol)
-        Init.data = ""
+        msg = Message('Test', sender='campigotto111@gmail.com', recipients=['uckyduke@gmail.com'])
+        msg.body = 'new message from: '
+        mail.send(msg)
         return render_template('home.html', form = form), print("you are under the home page now using POST, data are sent to database")
     
 ############## defining the routes for the different web pages END ##############

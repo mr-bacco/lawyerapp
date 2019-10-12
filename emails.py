@@ -20,7 +20,7 @@ def send_mail(name, telefono, email, messaggio):
     message = f"<h3>Nuovo contatto</h3><ul><li>Nome: {name}</li><li>email: {email}</li><li>telefono: {telefono}</li><li>messaggio: {messaggio}</li></ul>"
 
     sender_email = {email}
-    receiver_email = 'abaccolini@.com'
+    receiver_email = 'abaccolini@gmail.com'
     msg = MIMEText(message, 'html')
     msg['Subject'] = 'Contatto'
     msg['From'] = sender_email
