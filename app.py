@@ -16,10 +16,27 @@ from wtforms import Form, StringField, TextAreaField, PasswordField, validators 
 from passlib.hash import sha512_crypt #passowrd hashing
 import logging
 from functools import wraps
+from emails import send_mail
+from flask import Flask
+from flask_mail import Mail
 
-Items = Items() # defining the items as per model created in data.py
+app = Flask(__name__)
+mail = Mail(app)
 
 app = Flask(__name__) # creating an instalnce of the Flask class for thsi app as web server
+
+
+############## email server SETUP START ##############
+app.config['MAIL_SERVER']='smtp.mailtrap.io'
+app.config['MAIL_PORT'] = 2525
+app.config['MAIL_USERNAME'] = '87aa1120ef3ab1'
+app.config['MAIL_PASSWORD'] = '41ab2915809718'
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
+
+print(" connected to email ... probably")
+############## email server SETUP END ##############
+
 
 ############## db SETUP START ##############
 # using mongo db cloud version
@@ -64,15 +81,10 @@ def index():
         x = mycol.insert_many(mymsg), print("inserting this user: ", mymsg, "in the database called ", mycol)
         Init.data = ""
         return render_template('home.html', form = form), print("you are under the home page now using POST, data are sent to database")
-    else: 
-        print("this is the error")
-    Init.data = ""
-    return render_template('home.html', form = form)
-
-
-
-
+    
 ############## defining the routes for the different web pages END ##############
+
+
 
 
 
