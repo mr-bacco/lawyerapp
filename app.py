@@ -57,7 +57,7 @@ except:
 
 ############## defining the routes for the different web pages START ##############
 class Init(Form): #definition of a class for the init form
-    name = StringField('Name', [validators.Length(min = 1, max = 50)])
+    name = StringField('Name', [validators.Length(min = 1, max = 100)])
     telefono = StringField('Telefono', [validators.Length(min = 5, max = 50)])
     email = StringField('Email', [validators.Length(min = 6, max = 50)])
     messaggio = StringField('Messaggio', [validators.DataRequired()])
@@ -82,8 +82,8 @@ def index():
                 }]
         # insert the list into the mongo db
         x = mycol.insert_many(mymsg), print("inserting this user: ", mymsg, "in the database called ", mycol)
-        msg = Message('Test', sender='campigotto111@gmail.com', recipients=['uckyduke@gmail.com'])
-        msg.body = 'new message from: '
+        msg = Message('New message from: ', sender='campigotto111@gmail.com', recipients=['uckyduke@gmail.com'], body = mymsg)
+        msg.body = 'Messaggio: '
         mail.send(msg)
         return render_template('home.html', form = form), print("you are under the home page now using POST, data are sent to database")
     
