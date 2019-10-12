@@ -6,5 +6,6 @@ setup(name='lawerapp',
       author='BAC',
       author_email='mrbacco@outlook.com',
       url='https://www.python.org/sigs/distutils-sig/',
-      packages=[])
+      packages=['Flask', 'Flask-Mail', ]
+    )
 

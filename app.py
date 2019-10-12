@@ -17,7 +17,6 @@ from passlib.hash import sha512_crypt #passowrd hashing
 import logging
 from functools import wraps
 from emails import send_mail
-from flask import Flask
 from flask_mail import Mail, Message
 
 app = Flask(__name__)
