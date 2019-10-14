@@ -18,6 +18,7 @@ import logging
 from functools import wraps
 from emails import send_mail
 from flask_mail import Mail, Message
+import datetime
 
 app = Flask(__name__)
 mail = Mail(app)
@@ -82,8 +83,10 @@ def index():
                 }]
         # insert the list into the mongo db
         x = mycol.insert_many(mymsg), print("inserting this user: ", mymsg, "in the database called ", mycol)
+        str1 = ','.join(str(v) for v in mymsg)
         msg = Message('New message from: ', sender='campigotto111@gmail.com', recipients=['uckyduke@gmail.com'], body = mymsg)
-        msg.body = 'Messaggio: '
+        msg.body = 'Messaggio: ', str1
+
         mail.send(msg)
         return render_template('home.html', form = form), print("you are under the home page now using POST, data are sent to database")
     
