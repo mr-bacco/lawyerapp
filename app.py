@@ -19,6 +19,7 @@ from functools import wraps
 from emails import send_mail
 from flask_mail import Mail, Message
 import datetime
+import json
 
 app = Flask(__name__)
 mail = Mail(app)
@@ -69,7 +70,8 @@ def index():
     if request.method == 'GET': # make sure the method used is define above
         return render_template('home.html', form = form), logging.warning("you are under the home page now using GET, well done bacco ")
     elif request.method == 'POST' and form.validate():
-        name = form.name.data                           # the following are the data from the init form
+        # the following are the data from the init form
+        name = form.name.data 
         telefono = form.telefono.data
         email = form.email.data
         messaggio = form.messaggio.data
@@ -83,10 +85,7 @@ def index():
                 }]
         # insert the list into the mongo db
         x = mycol.insert_many(mymsg), print("inserting this user: ", mymsg, "in the database called ", mycol)
-        str1 = ','.join(str(v) for v in mymsg)
-        msg = Message('New message from: ', sender='campigotto111@gmail.com', recipients=['uckyduke@gmail.com'], body = mymsg)
-        msg.body = 'Messaggio: ', str1
-
+        msg = Message('New message from: ', sender='campigotto111@gmail.com', recipients=['uckyduke@gmail.com'], html = f"<h3> new message from: </h3> <ul><li>NOME: {name}</li> <li>TELEFONO: {telefono}</li><li> EMAIL: {email}</li> <li> MESSAGGIO: {messaggio}</li> " )
         mail.send(msg)
         return render_template('home.html', form = form), print("you are under the home page now using POST, data are sent to database")
     
