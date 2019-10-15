@@ -20,8 +20,7 @@ from emails import send_mail
 from flask_mail import Mail, Message
 from datetime import datetime
 
-app = Flask(__name__)
-mail = Mail(app)
+
 
 app = Flask(__name__) # creating an instalnce of the Flask class for thsi app as web server
 
