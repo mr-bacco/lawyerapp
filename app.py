@@ -1,7 +1,7 @@
 ########################################################
 # Project: basic web application for lawyers           #
 # Author: bac [and_bac]                                #
-# email: mrbacco@outlook.com                           #
+# email: mrbacco@mrbacco.com                           #
 # Date: Oct 2019                                       #
 ########################################################
 
